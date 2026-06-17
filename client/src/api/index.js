@@ -21,3 +21,10 @@ export const addWorkout = async (token, data) =>
   await API.post(`/user/workout`, data, {
     headers: { Authorization: `Bearer ${token}` },
   });
+  export const createBlog = async (token, data) =>
+  await API.post("/blog", data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+export const getBlogs = async () =>
+  await API.get("/blog");
