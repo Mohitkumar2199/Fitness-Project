@@ -1,5 +1,5 @@
 import express from "express";
-import { createBlog, getAllBlogs } from "../controllers/Blog.js";
+import { createBlog, getAllBlogs } from "../controllers/Blogs.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 
 const router = express.Router();

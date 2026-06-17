@@ -3,6 +3,7 @@ import * as dotenv from "dotenv";
 import cors from "cors";
 import mongoose from "mongoose";
 import UserRoutes from "./routes/User.js";
+import BlogRoutes from "./routes/Blogs.js";
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true })); // for form data
 
 app.use("/api/user/", UserRoutes);
+app.use("/api/blog/", BlogRoutes);
 // error handler
 app.use((err, req, res, next) => {
   const status = err.status || 500;
