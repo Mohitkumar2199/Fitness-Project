@@ -31,12 +31,14 @@ const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [age, setAge] = useState("");
+const [weight, setWeight] = useState("");
 
   const validateInputs = () => {
-    if (!name || !email || !password) {
-      alert("Please fill in all fields");
-      return false;
-    }
+   if (!name || !email || !password || !age || !weight) {
+  alert("Please fill in all fields");
+  return false;
+}
     return true;
   };
 
@@ -44,7 +46,7 @@ const SignUp = () => {
     setLoading(true);
     setButtonDisabled(true);
     if (validateInputs()) {
-      await UserSignUp({ name, email, password })
+    await UserSignUp({ name, email, password, age: Number(age), weight: Number(weight) })
         .then((res) => {
           dispatch(loginSuccess(res.data));
           alert("Account Created Success");
@@ -90,6 +92,18 @@ const SignUp = () => {
           value={password}
           handelChange={(e) => setPassword(e.target.value)}
         />
+        <TextInput
+  label="Age"
+  placeholder="Enter your age"
+  value={age}
+  handelChange={(e) => setAge(e.target.value)}
+/>
+<TextInput
+  label="Weight (kg)"
+  placeholder="Enter your weight in kg"
+  value={weight}
+  handelChange={(e) => setWeight(e.target.value)}
+/>
         <Button
           text="SignUp"
           onClick={handelSignUp}

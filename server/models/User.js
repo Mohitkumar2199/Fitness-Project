@@ -22,6 +22,9 @@ const UserSchema = new mongoose.Schema(
     age: {
       type: Number,
     },
+    weight: {
+  type: Number,
+},
   },
   { timestamps: true }
 );

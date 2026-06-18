@@ -20,12 +20,16 @@ export const UserRegister = async (req, res, next) => {
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
 
-    const user = new User({
-      name,
-      email,
-      password: hashedPassword,
-      img,
-    });
+    const { email, password, name, img, age, weight } = req.body;
+// and
+const user = new User({
+  name,
+  email,
+  password: hashedPassword,
+  img,
+  age,
+  weight,
+});
     const createdUser = await user.save();
     const token = jwt.sign({ id: createdUser._id }, process.env.JWT, {
       expiresIn: "9999 years",
@@ -270,10 +274,12 @@ export const addWorkout = async (req, res, next) => {
     });
 
     // Calculate calories burnt for each workout
-    await parsedWorkouts.forEach(async (workout) => {
-      workout.caloriesBurned = parseFloat(calculateCaloriesBurnt(workout));
-      await Workout.create({ ...workout, user: userId });
-    });
+    const user = await User.findById(userId);
+const userWeightKg = user?.weight || 70;
+await parsedWorkouts.forEach(async (workout) => {
+  workout.caloriesBurned = parseFloat(calculateCaloriesBurnt(workout, userWeightKg));
+  await Workout.create({ ...workout, user: userId });
+});
 
     return res.status(201).json({
       message: "Workouts added successfully",
@@ -303,9 +309,13 @@ const parseWorkoutLine = (parts) => {
 };
 
 // Function to calculate calories burnt for a workout
-const calculateCaloriesBurnt = (workoutDetails) => {
+const calculateCaloriesBurnt = (workoutDetails, userWeightKg) => {
   const durationInMinutes = parseInt(workoutDetails.duration);
-  const weightInKg = parseInt(workoutDetails.weight);
-  const caloriesBurntPerMinute = 5; // Sample value, actual calculation may vary
-  return durationInMinutes * caloriesBurntPerMinute * weightInKg;
+  const durationInHours = durationInMinutes / 60;
+  const metValues = {
+    Legs: 6.0, Chest: 5.5, Back: 5.5, Shoulders: 5.0,
+    Biceps: 4.0, Triceps: 4.0, Core: 4.5, Cardio: 8.0, default: 5.0,
+  };
+  const met = metValues[workoutDetails.category] || metValues.default;
+  return Math.round(met * userWeightKg * durationInHours);
 };
