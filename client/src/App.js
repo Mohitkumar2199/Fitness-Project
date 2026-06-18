@@ -8,6 +8,9 @@ import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 import Workouts from "./pages/Workouts";
 import Blogs from "./pages/Blogs";
+import Tutorials from "./pages/Tutorials";
+// ...
+
 
 const Container = styled.div`
   width: 100%;
@@ -30,6 +33,7 @@ function App() {
           <Container>
             <Navbar currentUser={currentUser} />
            <Routes>
+            <Route path="/tutorials" element={<Tutorials />} />
   <Route path="/" element={<Dashboard />} />
   <Route path="/workouts" element={<Workouts />} />
   <Route path="/blogs" element={<Blogs />} />

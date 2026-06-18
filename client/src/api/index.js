@@ -4,6 +4,12 @@ const API = axios.create({
   baseURL: "https://fitness-project-d2bz.onrender.com/api/"
 });
 
+export const getTutorials = async () => API.get("/tutorial");
+export const getTutorialById = async (id) => API.get(`/tutorial/${id}`);
+export const addTutorial = async (token, data) =>
+  await API.post("/tutorial", data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 export const UserSignUp = async (data) => API.post("/user/signup", data);
 export const UserSignIn = async (data) => API.post("/user/signin", data);
 
