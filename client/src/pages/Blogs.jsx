@@ -6,6 +6,7 @@ import "./Blogs.css";
 
 const Blogs = () => {
   const { currentUser } = useSelector((state) => state.user);
+  console.log(currentUser);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [blogs, setBlogs] = useState([]);
@@ -33,7 +34,9 @@ const Blogs = () => {
     if (!title.trim() || !content.trim()) return;
     setPublishing(true);
     try {
-      await createBlog(currentUser.token, { title, content });
+   const token = localStorage.getItem("fittrack-app-token");
+console.log(token);
+     await createBlog(token, { title, content });
       setTitle("");
       setContent("");
       await fetchBlogs();
