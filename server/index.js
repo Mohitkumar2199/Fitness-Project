@@ -13,7 +13,9 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: ["https://fitness-project-red.vercel.app", "http://localhost:3000"],
+  origin: function(origin, callback) {
+    callback(null, true);
+  },
   credentials: true,
 }));
 app.use(express.json({ limit: "50mb" }));
