@@ -13,6 +13,7 @@ const getYouTubeId = (url) => {
 
 const Tutorials = () => {
   const { currentUser } = useSelector((state) => state.user);
+  const isAdmin = currentUser?.email === "mohitk54079@gmail.com";
   const [tutorials, setTutorials] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -94,13 +95,15 @@ const Tutorials = () => {
 
       <div className="tutorials-container">
         <div className="tutorials-toolbar">
-          <button
-            className="toggle-form-btn"
-            onClick={() => setShowForm((s) => !s)}
-          >
-            {showForm ? "Cancel" : "+ Add Tutorial"}
-          </button>
-        </div>
+  {isAdmin && (
+    <button
+      className="toggle-form-btn"
+      onClick={() => setShowForm((s) => !s)}
+    >
+      {showForm ? "Cancel" : "+ Add Tutorial"}
+    </button>
+  )}
+</div>
 
         {showForm && (
           <div className="tutorial-form-card">
