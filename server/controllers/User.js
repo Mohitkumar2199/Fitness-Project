@@ -9,7 +9,7 @@ dotenv.config();
 
 export const UserRegister = async (req, res, next) => {
   try {
-    const { email, password, name, img } = req.body;
+    const { email, password, name, img, age, weight } = req.body;
 
     // Check if the email is in use
     const existingUser = await User.findOne({ email }).exec();
@@ -20,16 +20,15 @@ export const UserRegister = async (req, res, next) => {
     const salt = bcrypt.genSaltSync(10);
     const hashedPassword = bcrypt.hashSync(password, salt);
 
-    const { email, password, name, img, age, weight } = req.body;
-// and
-const user = new User({
-  name,
-  email,
-  password: hashedPassword,
-  img,
-  age,
-  weight,
-});
+    const user = new User({
+      name,
+      email,
+      password: hashedPassword,
+      img,
+      age,
+      weight,
+    });
+
     const createdUser = await user.save();
     const token = jwt.sign({ id: createdUser._id }, process.env.JWT, {
       expiresIn: "9999 years",
