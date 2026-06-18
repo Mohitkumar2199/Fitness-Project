@@ -12,10 +12,10 @@ export const userSlice = createSlice({
       state.currentUser = action.payload.user;
       localStorage.setItem("fittrack-app-token", action.payload.token);
     },
-    logout: (state) => {
-      state.currentUser = null;
-      localStorage.removeItem("fitttrack-app-token");
-    },
+   logout: (state) => {
+  state.currentUser = null;
+  localStorage.removeItem("fittrack-app-token"); // fixed - 2 t's
+},
   },
 });
 
